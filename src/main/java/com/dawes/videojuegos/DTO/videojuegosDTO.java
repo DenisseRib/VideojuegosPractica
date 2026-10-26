@@ -18,5 +18,51 @@ private int id_Copia;
 		this.id_Desarrolladora = id_Desarrolladora;
 	}
 
+	public int getId() {
+		return id;
+	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+	public LocalDate getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public int getPegi() {
+		return pegi;
+	}
+
+	public void setPegi(int pegi) {
+		this.pegi = pegi;
+	}
+
+	public int getId_Desarrolladora() {
+		return id_Desarrolladora;
+	}
+
+	public void setId_Desarrolladora(int id_Desarrolladora) {
+		this.id_Desarrolladora = id_Desarrolladora;
+	}
+
+	public int getId_Copia() {
+		return id_Copia;
+	}
+
+	public void setId_Copia(int id_Copia) {
+		this.id_Copia = id_Copia;
+	}
 }

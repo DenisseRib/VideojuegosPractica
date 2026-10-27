@@ -1,10 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/formularios.css}">
+    <title>Listado de videojuegos</title>
 </head>
 <body>
-$END$
+<div th:replace="~{fragmentos/menu :: menu}"></div>
+<header>
+    <h1>Listado de videojuegos</h1>
+</header>
+
+<div class="container">
+    <div class="form">
+        <form th:action="@{/videojuegos/listadoVideojuegos}" method="get" id="formulario">
+            <label for="titulo">Título</label>
+            <input type="text" id="titulo" name="titulo" th:value="${titulo}">
+
+            <label for="idDesarrolladora">Desarrolladora</label>
+            <select id="idDesarrolladora" name="idDesarrolladora">
+                <option value="">Todas</option>
+                <option th:each="d : ${desplegableDesarrolladoras}"
+                        th:value="${d.id}"
+                        th:text="${d.descripcion}"
+                        th:selected="${d.id == idDesarrolladora}"></option>
+            </select>
+
+            <label for="anioDesde">Año de lanzamiento desde</label>
+            <input type="number" id="anioDesde" name="anioDesde" th:value="${anioDesde}">
+
+            <label for="pegiMax">PEGI máximo</label>
+            <input type="number" id="pegiMax" name="pegiMax" th:value="${pegiMax}">
+
+            <label for="soloConCopias">Solo con copias disponibles</label>
+            <input type="checkbox" id="soloConCopias" name="soloConCopias" value="true"
+                   th:checked="${soloConCopias}"><br>
+
+            <input type="submit" value="Buscar">
+        </form>
+    </div>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Título</th>
+        <th>Año</th>
+        <th>PEGI</th>
+        <th>Desarrolladora</th>
+        <th>Copias</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="v : ${listaVideojuegos}">
+        <td th:text="${v.id}"></td>
+        <td th:text="${v.titulo}"></td>
+        <td th:text="${v.fechaLanzamiento}"></td>
+        <td th:text="${v.pegiMax}"></td>
+        <td th:text="${v.id_Desarrolladora}"></td>
+        <td th:text="${v.copia}"></td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(listaVideojuegos)}">
+        <td colspan="6">No se han encontrado videojuegos.</td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

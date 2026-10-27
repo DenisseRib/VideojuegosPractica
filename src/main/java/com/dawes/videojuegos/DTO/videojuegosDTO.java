@@ -1,28 +1,18 @@
 package com.dawes.videojuegos.DTO;
 
-import java.time.LocalDate;
-
 public class videojuegosDTO {
-private int id;
-private String titulo;
-LocalDate fechaLanzamiento;
-private int pegi;
-private int id_Desarrolladora;
-private int id_Copia;
+	private Integer id;
+	private String titulo;
+	private Integer fechaLanzamiento;
+	private Integer pegiMax;
+	private Integer id_Desarrolladora;
+	private Integer copia;
 
-	public videojuegosDTO(int id, String titulo, LocalDate fechaLanzamiento, int pegi, int id_Desarrolladora) {
-		this.id = id;
-		this.titulo = titulo;
-		this.fechaLanzamiento = fechaLanzamiento;
-		this.pegi = pegi;
-		this.id_Desarrolladora = id_Desarrolladora;
-	}
-
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -34,35 +24,44 @@ private int id_Copia;
 		this.titulo = titulo;
 	}
 
-	public LocalDate getfechaLanzamiento() {
+	public Integer getFechaLanzamiento() {
 		return fechaLanzamiento;
 	}
 
-	public void setfechaLanzamiento(LocalDate fechaLanzamiento) {
+	public void setFechaLanzamiento(Integer fechaLanzamiento) {
 		this.fechaLanzamiento = fechaLanzamiento;
 	}
 
-	public int getPegi() {
-		return pegi;
+	public Integer getPegiMax() {
+		return pegiMax;
 	}
 
-	public void setPegi(int pegi) {
-		this.pegi = pegi;
+	public void setPegiMax(Integer pegiMax) {
+		this.pegiMax = pegiMax;
 	}
 
-	public int getId_Desarrolladora() {
+	public Integer getId_Desarrolladora() {
 		return id_Desarrolladora;
 	}
 
-	public void setId_Desarrolladora(int id_Desarrolladora) {
+	public void setId_Desarrolladora(Integer id_Desarrolladora) {
 		this.id_Desarrolladora = id_Desarrolladora;
 	}
 
-	public int getId_Copia() {
-		return id_Copia;
+	public Integer getCopia() {
+		return copia;
 	}
 
-	public void setId_Copia(int id_Copia) {
-		this.id_Copia = id_Copia;
+	public void setCopia(Integer copia) {
+		this.copia = copia;
+	}
+
+	public videojuegosDTO(Integer id, String titulo, Integer fechaLanzamiento, Integer pegiMax, Integer id_Desarrolladora) {
+		this.id = id;
+		this.titulo = titulo;
+		this.fechaLanzamiento = fechaLanzamiento;
+		this.pegiMax = pegiMax;
+		this.id_Desarrolladora = id_Desarrolladora;
+		this.copia = copia;
 	}
 }

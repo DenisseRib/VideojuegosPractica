@@ -10,7 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 
 @Repository
@@ -23,63 +23,60 @@ public class videojuegoRepository {
 	public videojuegoRepository(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
-	public ArrayList<videojuegosDTO> buscarVideojuegos(String titulo, Integer idDesarrolladora,
-	                                                   Integer anioDesde, Integer pegiMax, boolean soloConCopias) {
+	public ArrayList<videojuegosDTO> buscarVideojuegos(Integer id, String titulo, Integer id_Desarrolladora,
+	                                                   Integer fechaLanzamiento, Integer pegiMax, Integer Copias) throws SQLException {
 
-		StringBuilder sql = new StringBuilder(
+		String sql =
 				"SELECT v.id, v.titulo, v.fecha_lanzamiento, v.pegi, "
 						+ "v.id_desarrolladora, d.nombre AS desarrolladora "
 						+ "FROM videojuegos v JOIN desarrolladoras d ON v.id_desarrolladora = d.id "
-						+ "WHERE v.titulo LIKE ? ");
-
-		ArrayList<Object> params = new ArrayList<>();
-		params.add("%" + (titulo == null ? "" : titulo.trim()) + "%");
-
-		if (idDesarrolladora != null && idDesarrolladora > 0) {
-			sql.append("AND v.id_desarrolladora = ? ");
-			params.add(idDesarrolladora);
-		}
-		if (anioDesde != null) {
-			sql.append("AND YEAR(v.fecha_lanzamiento) >= ? ");
-			params.add(anioDesde);
-		}
-		if (pegiMax != null) {
-			sql.append("AND v.pegi <= ? ");
-			params.add(pegiMax);
-		}
-		if (soloConCopias) {
-			sql.append("AND EXISTS (SELECT 1 FROM copias c "
-					+ "WHERE c.id_videojuego = v.id AND c.disponible = 1) ");
-		}
-		sql.append("ORDER BY v.titulo");
+						+ "WHERE v.titulo LIKE ? ";
 
 		ArrayList<videojuegosDTO> listaVideojuegos = new ArrayList<>();
 
-		Object Conexion = null;
-		try (Connection con = Conexion.getConexion();
-		     PreparedStatement ps = con.prepareStatement(sql.toString())) {
+		Connection connection = null;
+		try {
+			connection = dataSource.getConnection();
+		PreparedStatement ps = connection.prepareStatement(sql);
 
-			for (int i = 0; i < params.size(); i++) {
-				ps.setObject(i + 1, params.get(i));
-			}
+		ps.setString(1, "%" + titulo + "%");
+		ps.setString(2, "%" + id_Desarrolladora + "%");
+		ps.setInt(3,  fechaLanzamiento );
+		ps.setInt(4, pegiMax);
+		ps.setInt(5, Copias );
 
-			try (ResultSet rs = ps.executeQuery()) {
-				while (rs.next()) {
-					videojuegosDTO v = new videojuegosDTO();
-					v.setId(rs.getInt("id"));
-					v.setTitulo(rs.getString("titulo"));
-					v.setFechaLanzamiento(rs.getDate("fecha_lanzamiento").toLocalDate());
-					v.setPegi(rs.getInt("pegi"));
-					v.setIdDesarrolladora(rs.getInt("id_desarrolladora"));
-					v.setDesarrolladora(rs.getString("desarrolladora"));
-					listaVideojuegos.add(v);
-				}
+			logger.debug("Query a ejecutar: {}", ps);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				listaVideojuegos.add(mapearVideojuego(rs));
 			}
+			connection.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			logger.error("Error al buscar videojuego", e);
+			cerrarConexion(connection);
 		}
 		return listaVideojuegos;
 	}
+	private videojuegosDTO mapearVideojuego(ResultSet rs) throws SQLException {
+		return new videojuegosDTO(
+				rs.getInt( "id_Desarrolladora" ),
+				rs.getString("titulo" ),
+
+		rs.getInt("fechaLanzamiento" ),
+		rs.getInt("pegiMax"),
+				rs.getInt( "Copias" )
+		);
+
+	}
+
+	private void cerrarConexion(Connection connection) {
+		if (connection != null) {
+			try {
+				connection.close();
+			} catch (SQLException ex) {
+				throw new RuntimeException(ex);
+			}
+		}
+	}
+
 }

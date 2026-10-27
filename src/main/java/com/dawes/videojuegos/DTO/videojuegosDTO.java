@@ -5,15 +5,15 @@ import java.time.LocalDate;
 public class videojuegosDTO {
 private int id;
 private String titulo;
-LocalDate fechaNacimiento;
+LocalDate fechaLanzamiento;
 private int pegi;
 private int id_Desarrolladora;
 private int id_Copia;
 
-	public videojuegosDTO(int id, String titulo, LocalDate fechaNacimiento, int pegi, int id_Desarrolladora) {
+	public videojuegosDTO(int id, String titulo, LocalDate fechaLanzamiento, int pegi, int id_Desarrolladora) {
 		this.id = id;
 		this.titulo = titulo;
-		this.fechaNacimiento = fechaNacimiento;
+		this.fechaLanzamiento = fechaLanzamiento;
 		this.pegi = pegi;
 		this.id_Desarrolladora = id_Desarrolladora;
 	}
@@ -34,12 +34,12 @@ private int id_Copia;
 		this.titulo = titulo;
 	}
 
-	public LocalDate getFechaNacimiento() {
-		return fechaNacimiento;
+	public LocalDate getfechaLanzamiento() {
+		return fechaLanzamiento;
 	}
 
-	public void setFechaNacimiento(LocalDate fechaNacimiento) {
-		this.fechaNacimiento = fechaNacimiento;
+	public void setfechaLanzamiento(LocalDate fechaLanzamiento) {
+		this.fechaLanzamiento = fechaLanzamiento;
 	}
 
 	public int getPegi() {
